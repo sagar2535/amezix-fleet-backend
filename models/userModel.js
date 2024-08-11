@@ -7,24 +7,25 @@ const User = sequelize.define("User", {
     autoIncrement: true,
     primaryKey: true,
   },
-  id_number: {
+  phone_number: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  name: {
+  otp: {
     type: DataTypes.STRING,
     allowNull: false,
-    validate: {
-      notNull: { msg: "Please enter a name" },
-    },
   },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-    validate: {
-      isEmail: { msg: "Please enter a valid email address" },
-    },
+  is_verified: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
   },
 });
 

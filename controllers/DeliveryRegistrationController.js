@@ -1,14 +1,75 @@
 import DeliveryRegistration from "../models/DeliveryRegistration.js"; // Adjust the path as needed
+import { uploadImageToCloudinary } from "../utils/Cloudinary.js";
 
-// Create a new delivery registration
 export const createDeliveryRegistration = async (req, res) => {
   try {
+    const {
+      name,
+      phone_number,
+      city,
+      selfie_image,
+      aadhar_front_image,
+      aadhar_back_image,
+      pan_front_image,
+      pan_back_image,
+      driving_licence_front_image,
+      driving_licence_back_image,
+      bank_name,
+      bank_account_number,
+      bank_account_holder_name,
+      full_address,
+      city_village,
+      district,
+      country,
+      pincode,
+      work_area,
+    } = req.body;
+
+    // Upload images to Cloudinary
+    const selfieImageUrl = await uploadImageToCloudinary(selfie_image);
+    const aadharFrontImageUrl = await uploadImageToCloudinary(
+      aadhar_front_image
+    );
+    const aadharBackImageUrl = await uploadImageToCloudinary(aadhar_back_image);
+    const panFrontImageUrl = await uploadImageToCloudinary(pan_front_image);
+    const panBackImageUrl = await uploadImageToCloudinary(pan_back_image);
+    const drivingLicenceFrontImageUrl = await uploadImageToCloudinary(
+      driving_licence_front_image
+    );
+    const drivingLicenceBackImageUrl = await uploadImageToCloudinary(
+      driving_licence_back_image
+    );
+
+    // Save the data to the database
     const newRegistration = await DeliveryRegistration.create({
-      ...req.body,
+      name,
+      phone_number,
+      city,
+      selfie_image: selfieImageUrl,
+      aadhar_front_image: aadharFrontImageUrl,
+      aadhar_back_image: aadharBackImageUrl,
+      pan_front_image: panFrontImageUrl,
+      pan_back_image: panBackImageUrl,
+      driving_licence_front_image: drivingLicenceFrontImageUrl,
+      driving_licence_back_image: drivingLicenceBackImageUrl,
+      bank_name,
+      bank_account_number,
+      bank_account_holder_name,
+      full_address,
+      city_village,
+      district,
+      country,
+      pincode,
+      work_area,
     });
-    res.status(201).json(newRegistration);
+
+    res.status(201).json({
+      message: "Registration successful",
+      data: newRegistration,
+    });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error("Error registering user:", error);
+    res.status(500).json({ error: "Registration failed" });
   }
 };
 

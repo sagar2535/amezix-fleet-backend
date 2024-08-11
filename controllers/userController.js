@@ -88,11 +88,7 @@ export const deleteSingleUserData = async (req, res, next) => {
 
 export const getAllUsersData = async (req, res) => {
   try {
-    const users = await User.findAll({
-      attributes: {
-        exclude: ["password"],
-      },
-    });
+    const users = await User.findAll();
     res.status(200).json({
       status: "success",
       users,

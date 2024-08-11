@@ -1,4 +1,4 @@
-import express from "express";
+import { Router } from "express";
 import {
   createDeliveryRegistration,
   getAllDeliveryRegistrations,
@@ -7,7 +7,7 @@ import {
   deleteDeliveryRegistration,
 } from "../controllers/DeliveryRegistrationController.js";
 
-const router = express.Router();
+const router = Router();
 
 router.post("/", createDeliveryRegistration);
 router.get("/", getAllDeliveryRegistrations);
