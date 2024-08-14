@@ -1,6 +1,7 @@
 import { config } from "dotenv";
 config();
 import { v2 as Cloudinary } from "cloudinary";
+import streamifier from "streamifier";
 
 Cloudinary.config({
   cloud_name: process.env.PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -8,14 +9,18 @@ Cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET_KEY,
 });
 
-export async function uploadImageToCloudinary(url) {
-  try {
-    const result = await Cloudinary.uploader.upload(url);
-    return result.secure_url;
-  } catch (error) {
-    console.error("Error uploading to Cloudinary:", error);
-    throw new Error("Image upload failed");
-  }
-}
+export const uploadImageToCloudinary = (buffer) => {
+  return new Promise((resolve, reject) => {
+    const stream = Cloudinary.uploader.upload_stream((error, result) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(result.secure_url);
+      }
+    });
+
+    streamifier.createReadStream(buffer).pipe(stream);
+  });
+};
 
 export default Cloudinary;

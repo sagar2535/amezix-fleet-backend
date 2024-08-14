@@ -7,13 +7,6 @@ export const createDeliveryRegistration = async (req, res) => {
       name,
       phone_number,
       city,
-      selfie_image,
-      aadhar_front_image,
-      aadhar_back_image,
-      pan_front_image,
-      pan_back_image,
-      driving_licence_front_image,
-      driving_licence_back_image,
       bank_name,
       bank_account_number,
       bank_account_holder_name,
@@ -25,33 +18,37 @@ export const createDeliveryRegistration = async (req, res) => {
       work_area,
     } = req.body;
 
-    // Upload images to Cloudinary
-    const selfieImageUrl = await uploadImageToCloudinary(selfie_image);
-    const aadharFrontImageUrl = await uploadImageToCloudinary(
-      aadhar_front_image
-    );
-    const aadharBackImageUrl = await uploadImageToCloudinary(aadhar_back_image);
-    const panFrontImageUrl = await uploadImageToCloudinary(pan_front_image);
-    const panBackImageUrl = await uploadImageToCloudinary(pan_back_image);
-    const drivingLicenceFrontImageUrl = await uploadImageToCloudinary(
-      driving_licence_front_image
-    );
-    const drivingLicenceBackImageUrl = await uploadImageToCloudinary(
-      driving_licence_back_image
+    // Mapping file fields to image keys
+    const imageFields = [
+      "selfie_image",
+      "aadhar_front_image",
+      "aadhar_back_image",
+      "pan_front_image",
+      "pan_back_image",
+      "driving_licence_front_image",
+      "driving_licence_back_image",
+    ];
+
+    const uploadedImages = await Promise.all(
+      req.files.map(async (file, index) => {
+        const uploadedUrl = await uploadImageToCloudinary(file.buffer);
+        return { [imageFields[index]]: uploadedUrl };
+      })
     );
 
-    // Save the data to the database
+    const images = Object.assign({}, ...uploadedImages);
+
     const newRegistration = await DeliveryRegistration.create({
       name,
       phone_number,
       city,
-      selfie_image: selfieImageUrl,
-      aadhar_front_image: aadharFrontImageUrl,
-      aadhar_back_image: aadharBackImageUrl,
-      pan_front_image: panFrontImageUrl,
-      pan_back_image: panBackImageUrl,
-      driving_licence_front_image: drivingLicenceFrontImageUrl,
-      driving_licence_back_image: drivingLicenceBackImageUrl,
+      selfie_image: images.selfie_image,
+      aadhar_front_image: images.aadhar_front_image,
+      aadhar_back_image: images.aadhar_back_image,
+      pan_front_image: images.pan_front_image,
+      pan_back_image: images.pan_back_image,
+      driving_licence_front_image: images.driving_licence_front_image,
+      driving_licence_back_image: images.driving_licence_back_image,
       bank_name,
       bank_account_number,
       bank_account_holder_name,
