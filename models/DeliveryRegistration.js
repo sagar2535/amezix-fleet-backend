@@ -16,102 +16,50 @@ const DeliveryRegistration = sequelize.define(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notNull: { msg: "Please enter a name" },
-      },
     },
     phone_number: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notNull: { msg: "Please enter a valid phone number" },
-        isNumeric: { msg: "Phone number must contain only numbers" }, // Ensure phone number is numeric
-        len: {
-          args: [10, 15],
-          msg: "Phone number should be between 10 and 15 characters",
-        },
-      },
     },
     city: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notNull: { msg: "Please enter a valid city name" },
-      },
     },
     aadhar_front_image: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notNull: { msg: "Please upload a valid Aadhar Card front image!" },
-      },
     },
     aadhar_back_image: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notNull: { msg: "Please upload a valid Aadhar Card back image!" },
-      },
     },
     pan_front_image: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notNull: { msg: "Please upload a valid Pan Card front image!" },
-      },
     },
     pan_back_image: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notNull: { msg: "Please upload a valid Pan Card back image!" },
-      },
     },
     driving_licence_front_image: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notNull: {
-          msg: "Please upload a valid Driving Licence Card front image!",
-        },
-      },
     },
     driving_licence_back_image: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notNull: {
-          msg: "Please upload a valid Driving Licence Card back image!",
-        },
-      },
     },
     bank_name: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notNull: {
-          msg: "Please enter a valid Bank Name!",
-        },
-      },
     },
     bank_account_number: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notNull: {
-          msg: "Please enter a valid Bank Account Number!",
-        },
-        isNumeric: { msg: "Bank Account Number must contain only numbers" }, // Ensure bank account number is numeric
-      },
     },
     bank_account_holder_name: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notNull: {
-          msg: "Please enter an Account Holder's Name!",
-        },
-      },
     },
 
     full_address: {
@@ -133,14 +81,6 @@ const DeliveryRegistration = sequelize.define(
     pincode: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notNull: { msg: "Please enter a valid pincode" },
-        isNumeric: { msg: "Pincode must contain only numbers" }, // Ensure pincode is numeric
-        len: {
-          args: [5, 10],
-          msg: "Pincode should be between 5 and 10 characters",
-        },
-      },
     },
     work_area: {
       type: DataTypes.STRING,

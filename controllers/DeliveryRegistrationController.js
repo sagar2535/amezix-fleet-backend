@@ -1,7 +1,9 @@
+import { sequelize } from "../config/db.js";
 import DeliveryRegistration from "../models/DeliveryRegistration.js"; // Adjust the path as needed
 import { uploadImageToCloudinary } from "../utils/Cloudinary.js";
 
 export const createDeliveryRegistration = async (req, res) => {
+  const transaction = await sequelize.transaction();
   try {
     const {
       name,
@@ -18,7 +20,6 @@ export const createDeliveryRegistration = async (req, res) => {
       work_area,
     } = req.body;
 
-    // Mapping file fields to image keys
     const imageFields = [
       "selfie_image",
       "aadhar_front_image",
@@ -38,27 +39,32 @@ export const createDeliveryRegistration = async (req, res) => {
 
     const images = Object.assign({}, ...uploadedImages);
 
-    const newRegistration = await DeliveryRegistration.create({
-      name,
-      phone_number,
-      city,
-      selfie_image: images.selfie_image,
-      aadhar_front_image: images.aadhar_front_image,
-      aadhar_back_image: images.aadhar_back_image,
-      pan_front_image: images.pan_front_image,
-      pan_back_image: images.pan_back_image,
-      driving_licence_front_image: images.driving_licence_front_image,
-      driving_licence_back_image: images.driving_licence_back_image,
-      bank_name,
-      bank_account_number,
-      bank_account_holder_name,
-      full_address,
-      city_village,
-      district,
-      country,
-      pincode,
-      work_area,
-    });
+    const newRegistration = await DeliveryRegistration.create(
+      {
+        name,
+        phone_number,
+        city,
+        selfie_image: images.selfie_image,
+        aadhar_front_image: images.aadhar_front_image,
+        aadhar_back_image: images.aadhar_back_image,
+        pan_front_image: images.pan_front_image,
+        pan_back_image: images.pan_back_image,
+        driving_licence_front_image: images.driving_licence_front_image,
+        driving_licence_back_image: images.driving_licence_back_image,
+        bank_name,
+        bank_account_number,
+        bank_account_holder_name,
+        full_address,
+        city_village,
+        district,
+        country,
+        pincode,
+        work_area,
+      },
+      { transaction }
+    );
+
+    await transaction.commit();
 
     res.status(201).json({
       message: "Registration successful",
@@ -66,6 +72,7 @@ export const createDeliveryRegistration = async (req, res) => {
     });
   } catch (error) {
     console.error("Error registering user:", error);
+    await transaction.rollback();
     res.status(500).json({ error: "Registration failed" });
   }
 };
