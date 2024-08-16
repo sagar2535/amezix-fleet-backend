@@ -92,8 +92,8 @@ const DeliveryRegistration = sequelize.define(
     },
   },
   {
-    timestamps: true, // Automatically adds createdAt and updatedAt fields
-    createdAt: "created_at", // Map the Sequelize field to your custom field name
+    timestamps: true,
+    createdAt: "created_at",
     updatedAt: false,
   }
 );

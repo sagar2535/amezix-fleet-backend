@@ -6,11 +6,10 @@ import {
   updateDeliveryRegistration,
   deleteDeliveryRegistration,
 } from "../controllers/DeliveryRegistrationController.js";
-import imageFileUpload from "../middleware/multer.js";
 
 const router = Router();
 
-router.post("/", imageFileUpload, createDeliveryRegistration);
+router.post("/", createDeliveryRegistration);
 router.get("/", getAllDeliveryRegistrations);
 router.get("/:id", getDeliveryRegistrationById);
 router.put("/:id", updateDeliveryRegistration);

@@ -1,7 +1,7 @@
 {
-  "name": "attendance-management-system",
+  "name": "amezix-fleet-delivery",
   "version": "1.0.0",
-  "description": "This Attendance Management System is like employee Management System",
+  "description": "amezix fleet is a delivery service",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sagar2535/attendence-management-system.git"
+    "url": "git+https://github.com/sagar2535/amezix-fleet-backend"
   },
   "author": " (K & A Technology)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sagar2535/attendence-management-system/issues"
+    "url": "https://github.com/sagar2535/amezix-fleet-backend/issues"
   },
-  "homepage": "https://github.com/sagar2535/attendence-management-system#readme",
+  "homepage": "https://github.com/sagar2535/amezix-fleet-backend#readme",
   "dependencies": {
     "axios": "^1.7.3",
     "bcryptjs": "^2.4.3",
@@ -28,12 +28,8 @@
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.30.1",
     "morgan": "^1.10.0",
-    "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.9.14",
     "pg": "^8.12.0",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.3",
-    "streamifier": "^0.1.1",
-    "validator": "^13.11.0"
+    "sequelize": "^6.37.3"
   }
 }

@@ -3,7 +3,15 @@ import AppError from "../utils/AppError.js";
 
 export const createUser = async (req, res, next) => {
   try {
-    const user = await User.create(req.body);
+    const { phone_number, otp, is_verified } = req.body;
+    if (!phone_number || !otp || !is_verified) {
+      return next(new AppError("Invalid phone number and otp", 404));
+    }
+    const user = await User.create({
+      phone_number,
+      otp,
+      is_verified,
+    });
     if (!user) {
       return next(new AppError("No Users Data has been Added!", 404));
     }
