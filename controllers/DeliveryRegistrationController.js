@@ -27,20 +27,23 @@ export const createDeliveryRegistration = async (req, res) => {
       work_area,
     } = req.body;
 
-    const selfieImageUrl = await uploadImageToCloudinary(selfie_image);
-    const aadharFrontImageUrl = await uploadImageToCloudinary(
-      aadhar_front_image
-    );
-    const aadharBackImageUrl = await uploadImageToCloudinary(aadhar_back_image);
-    const panFrontImageUrl = await uploadImageToCloudinary(pan_front_image);
-    const panBackImageUrl = await uprs;
-    loadImageToCloudinary(pan_back_image);
-    const drivingLicenceFrontImageUrl = await uploadImageToCloudinary(
-      driving_licence_front_image
-    );
-    const drivingLicenceBackImageUrl = await uploadImageToCloudinary(
-      driving_licence_back_image
-    );
+    const [
+      selfieImageUrl,
+      aadharFrontImageUrl,
+      aadharBackImageUrl,
+      panFrontImageUrl,
+      panBackImageUrl,
+      drivingLicenceFrontImageUrl,
+      drivingLicenceBackImageUrl,
+    ] = await Promise.all([
+      uploadImageToCloudinary(selfie_image.base64String),
+      uploadImageToCloudinary(aadhar_front_image.base64String),
+      uploadImageToCloudinary(aadhar_back_image.base64String),
+      uploadImageToCloudinary(pan_front_image.base64String),
+      uploadImageToCloudinary(pan_back_image.base64String),
+      uploadImageToCloudinary(driving_licence_front_image.base64String),
+      uploadImageToCloudinary(driving_licence_back_image.base64String),
+    ]);
 
     const newRegistration = await DeliveryRegistration.create(
       {
@@ -80,7 +83,6 @@ export const createDeliveryRegistration = async (req, res) => {
   }
 };
 
-// Get all delivery registrations
 export const getAllDeliveryRegistrations = async (req, res) => {
   try {
     const registrations = await DeliveryRegistration.findAll();

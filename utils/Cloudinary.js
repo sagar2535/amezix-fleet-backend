@@ -8,12 +8,18 @@ Cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET_KEY,
 });
 
-export async function uploadImageToCloudinary(url) {
+export async function uploadImageToCloudinary(base64Data) {
   try {
-    const result = await Cloudinary.uploader.upload(url);
+    if (!base64Data.startsWith("data:")) {
+      throw new Error("Invalid Base64 data format.");
+    }
+    const result = await Cloudinary.uploader.upload(base64Data, {
+      resource_type: "image",
+    });
+
     return result.secure_url;
   } catch (error) {
-    console.error("Error uploading to Cloudinary:", error);
+    console.error("Error uploading Base64 data to Cloudinary:", error);
     throw new Error("Image upload failed");
   }
 }
