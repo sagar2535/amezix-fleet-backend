@@ -4,13 +4,15 @@ import AppError from "../utils/AppError.js";
 export const createUser = async (req, res, next) => {
   try {
     const { phone_number, otp, is_verified } = req.body;
+
+    console.log(phone_number, otp, is_verified);
     if (!phone_number || !otp || !is_verified) {
       return next(new AppError("Invalid phone number and otp", 404));
     }
     const user = await User.create({
-      phone_number,
-      otp,
-      is_verified,
+      phone_number: phone_number,
+      otp: otp,
+      is_verified: is_verified,
     });
     if (!user) {
       return next(new AppError("No Users Data has been Added!", 404));
@@ -34,10 +36,13 @@ export async function updateSingleUserData(req, res, next) {
     if (!user) {
       return next(new AppError("User did not found!", 404));
     }
-    const { name, email } = req.body;
+    const { is_verified } = req.body;
 
-    user.name = name;
-    user.email = email;
+    if (!is_verified) {
+      return next(new AppError("User does not exist!", 404));
+    }
+
+    user.is_verified = is_verified;
 
     const updatedUser = await user.save();
 
@@ -56,9 +61,11 @@ export async function updateSingleUserData(req, res, next) {
 // Get a user
 export async function getSingleUserData(req, res, next) {
   try {
-    const user = await User.findByPk(req.params.id);
+    const user = await User.findOne(req.body.phone_number);
     if (!user) {
-      return next(new AppError("No User Data found!", 404));
+      res.status(404).json({
+        message: "User not found",
+      });
     }
     res.status(200).json({
       status: "success",
