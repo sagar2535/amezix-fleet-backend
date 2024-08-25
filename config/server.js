@@ -8,6 +8,25 @@ process.on("uncaughtException", (err) => {
 config();
 
 import app from "./app.js";
+import { sendNotification } from "../firebase/services/notificationService.js";
+
+const token =
+  "fo2uCGzYSoOLXscTpwTSbG:APA91bHQiuOIHOZ9Bm5DyWv28E0Mgm-sPpbiCWgc9xQe0ROvirgJK2NSqX7rPxuFiO4FCZ851d1g_oHEM3qD_PT2Ctu2iP-rHTsUJ3PTqb143geeqJe46pev1HcX2cUrgIbK7BkkdssC";
+const title = "Test Notification";
+const body = "This is a test notification from Firebase Admin SDK.";
+const data = {
+  id: "notification_channel",
+  name: "notification_channel",
+  sound: "order__notification",
+};
+
+sendNotification(token, title, body, data)
+  .then((response) => {
+    console.log("Notification sent successfully:", response);
+  })
+  .catch((error) => {
+    console.error("Error sending notification:", error);
+  });
 
 const port = process.env.PORT || 3005;
 

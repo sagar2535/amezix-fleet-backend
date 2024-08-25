@@ -5,6 +5,7 @@ import cors from "cors";
 import userRoutes from "../routes/userRoutes.js";
 import DeliveryRegistrationRoutes from "../routes/DeliveryRegistrationRoutes.js";
 import AuthRoutes from "../routes/AuthRoutes.js";
+import DutyRoutes from "../routes/DutyRoutes.js";
 import morgan from "morgan";
 
 const app = express();
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/delivery", DeliveryRegistrationRoutes);
+app.use("/api/v1/duty", DutyRoutes);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can not find ${req.originalUrl} on this server`, 404));

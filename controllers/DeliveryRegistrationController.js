@@ -92,10 +92,14 @@ export const getAllDeliveryRegistrations = async (req, res) => {
   }
 };
 
-// Get a specific delivery registration by ID
-export const getDeliveryRegistrationById = async (req, res) => {
+export const getDeliveryRegistrationDataUsingPhoneNumber = async (req, res) => {
   try {
-    const registration = await DeliveryRegistration.findByPk(req.params.id);
+    const registration = await DeliveryRegistration.findOne({
+      where: {
+        phone_number: req.query.phone_number,
+      },
+      raw: true,
+    });
     if (!registration) {
       return res.status(404).json({ error: "Registration not found" });
     }

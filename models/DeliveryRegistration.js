@@ -7,6 +7,7 @@ const DeliveryRegistration = sequelize.define(
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
+      unique: true,
       primaryKey: true,
     },
     selfie_image: {
@@ -19,6 +20,7 @@ const DeliveryRegistration = sequelize.define(
     },
     phone_number: {
       type: DataTypes.STRING,
+      unique: true,
       allowNull: false,
     },
     city: {
@@ -55,6 +57,7 @@ const DeliveryRegistration = sequelize.define(
     },
     bank_account_number: {
       type: DataTypes.STRING,
+      unique: true,
       allowNull: false,
     },
     bank_account_holder_name: {

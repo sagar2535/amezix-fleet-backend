@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   createDeliveryRegistration,
   getAllDeliveryRegistrations,
-  getDeliveryRegistrationById,
+  getDeliveryRegistrationDataUsingPhoneNumber,
   updateDeliveryRegistration,
   deleteDeliveryRegistration,
 } from "../controllers/DeliveryRegistrationController.js";
@@ -11,7 +11,7 @@ const router = Router();
 
 router.post("/", createDeliveryRegistration);
 router.get("/", getAllDeliveryRegistrations);
-router.get("/:id", getDeliveryRegistrationById);
+router.get("/phone", getDeliveryRegistrationDataUsingPhoneNumber);
 router.put("/:id", updateDeliveryRegistration);
 router.delete("/:id", deleteDeliveryRegistration);
 

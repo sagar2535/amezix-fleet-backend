@@ -60,8 +60,21 @@ export async function updateSingleUserData(req, res, next) {
 
 // Get a user
 export async function getSingleUserData(req, res, next) {
+  const { phone_number } = req.body;
+
   try {
-    const user = await User.findOne(req.body.phone_number);
+    if (!phone_number) {
+      res.status(404).json({
+        message: "Phone Number not found",
+      });
+    }
+    const user = await User.findOne({
+      where: {
+        phone_number,
+      },
+      raw: true,
+      attributes: ["phone_number", "is_verified"],
+    });
     if (!user) {
       res.status(404).json({
         message: "User not found",
